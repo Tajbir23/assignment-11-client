@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import { AuthContext } from "../../provider/AuthProvider";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ const SignUp = () => {
     const [lowerCase, setLowerCase] = useState("");
   const [upperCase, setUpperCase] = useState("");
   const [Length, setLength] = useState("");
+  const [special, setSpecial] = useState("");
   const [showPass, setShowPass] = useState(false);
   const {createUser, updateUserProfile, setUser} = useContext(AuthContext)
   const location = useLocation()
@@ -26,6 +27,8 @@ const SignUp = () => {
   const validatePassword = (password) => {
     const lowerCase = /[a-z]/g;
     const upperCase = /[A-Z]/g;
+    const specialCharacter = /[^\w\s]/g;
+
     if (!lowerCase.test(password)) {
       setLowerCase("Password must lowercase letters");
     } else {
@@ -45,6 +48,12 @@ const SignUp = () => {
       setLength("");
       setData({ ...data, password });
     }
+    if (!specialCharacter.test(password)) {
+      setSpecial("Password must special characters");
+    }else{
+      setSpecial("")
+      setData({ ...data, password });
+    }
   };
 
   const handleSignUp = async(e) => {
@@ -56,8 +65,9 @@ const SignUp = () => {
         setUser({...result?.user, photoURL : data.photo, displayName: data.name})
 
         await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {email: data.email}, {withCredentials: true})
-        navigate(redirect, {replace: true})
         toast.success('Signup Successful')
+        navigate(redirect, {replace: true})
+        
         } catch (error) {
             console.log(error)
             toast.error(error.message)
@@ -67,10 +77,6 @@ const SignUp = () => {
 
   return (
     <div>
-    <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="card shrink-0 sm:w-[400px] w-full max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSignUp} className="card-body">
@@ -145,6 +151,11 @@ const SignUp = () => {
                     {upperCase && (
                       <>
                         {upperCase},
+                      </>
+                    )}
+                    {special && (
+                      <>
+                        {special},
                       </>
                     )}
 
