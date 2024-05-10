@@ -23,7 +23,7 @@ const Navbar = () => {
     <a className="btn btn-ghost text-xl">daisyUI</a>
   </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
+    <ul className="menu menu-horizontal px-1 z-40">
       <li><a>Item 1</a></li>
       <li>
         <details>

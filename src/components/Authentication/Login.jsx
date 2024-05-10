@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc"
 import { AuthContext } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const Login = ({setPage}) => {
@@ -20,18 +21,28 @@ const Login = ({setPage}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await signIn(data.email, data.password);
+    try {
+      const user = await signIn(data.email, data.password);
     setUser(user);
+    await axios.post(`${import.meta.env.VITE_API_URL}`, {email: user.email}, {withCredentials: true})
     toast.success('logged in successfully');
     navigate(redirect, {replace: true})
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
 
   const googleLogin = async(e) => {
     e.preventDefault();
-    const user = await signInWithGoogle()
+    try {
+      const user = await signInWithGoogle()
     setUser(user);
+    await axios.post(`${import.meta.env.VITE_API_URL}`, {email: user.email}, {withCredentials: true})
     toast.success('logged in successfully');
     navigate(redirect, {replace: true})
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
   return (
     <div>
