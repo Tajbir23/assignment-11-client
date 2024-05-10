@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
-const SignUp = () => {
+const SignUp = ({setPage}) => {
     const [lowerCase, setLowerCase] = useState("");
   const [upperCase, setUpperCase] = useState("");
   const [Length, setLength] = useState("");
@@ -14,7 +14,7 @@ const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
   const {createUser, updateUserProfile, setUser} = useContext(AuthContext)
   const location = useLocation()
-  const redirect = location.state?.from || "/"
+  const redirect = location.state || "/"
   const navigate = useNavigate()
 
   const [data, setData] = useState({
@@ -177,7 +177,7 @@ const SignUp = () => {
                 </button>
                 <p className="mt-2 text-sm text-gray-600 text-center">
                   Already have an account?{" "}
-                  <button className="text-blue-500">
+                  <button onClick={() => setPage('login')} className="text-blue-500">
                     Login
                   </button>
                 </p>
