@@ -10,7 +10,7 @@ const PrivateRoute = ({children}) => {
     if (loading) return <h3>Loading...</h3>
     if(user) return children
 
-    return <Navigate state={location.pathname} replace={true} />
+    return <Navigate state={location.pathname} replace={true} to='/authentication' />
   
 }
 

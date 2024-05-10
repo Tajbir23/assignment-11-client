@@ -16,6 +16,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [categoryData, setCategoryData] = useState();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -34,7 +35,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     setLoading(true);
-    const { data } = await axios(`${import.meta.env.VITE_API_URL}/logout`, {
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/logout`, {
       withCredentials: true,
     });
     console.log(data);
@@ -51,12 +52,15 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log(currentUser)
       setLoading(false);
     });
     return () => {
       return unsubscribe();
     };
   }, []);
+
+  
 
   return (
     <AuthContext.Provider
@@ -70,6 +74,8 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         logOut,
         updateUserProfile,
+        categoryData,
+        setCategoryData
       }}
     >
       {children}
