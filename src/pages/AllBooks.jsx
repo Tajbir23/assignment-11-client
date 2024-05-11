@@ -1,15 +1,18 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import StarRatings from "react-star-ratings"
 import { AuthContext } from "../provider/AuthProvider"
+import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 
 
 const AllBooks = () => {
 
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
     const {user} = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const [checkLibrarian, setCheckLibrarian] = useState({})
 
@@ -27,14 +30,23 @@ const AllBooks = () => {
         try {
             axios.post(`${import.meta.env.VITE_API_URL}/check_librarian`, {email: user.email}, {withCredentials: true})
             .then((data) => setCheckLibrarian(data.data))
+            queryClient.invalidateQueries(['all_books'])
         } catch (error) {
             console.log(error)
         }
-    },[user])
+    },[user,queryClient])
+
+    console.log(checkLibrarian)
 
     if (isLoading) return <div className="md:h-96 h-40 flex items-center justify-center">
     <span className="loading loading-spinner loading-lg"></span>
   </div>
+
+  const handleUpdate =(id) => {
+    
+    if(checkLibrarian.message !== "access granted") return toast.error('Librarian only')
+    navigate(`/update/${id}`)
+  }
   return (
     <div className="my-10">
       
@@ -60,7 +72,8 @@ const AllBooks = () => {
                 starDimension="20px"
               />
             </div>
-            <button disabled={checkLibrarian.message === "access denied" && user?.email !== items?.authorEmail} className="btn w-full">Update</button>
+
+            <button onClick={() => handleUpdate(items?._id)} className="btn w-full">Update</button>
             {checkLibrarian.message === "access granted" && <button className="btn w-full">Delete</button>}
           </div>
         })}

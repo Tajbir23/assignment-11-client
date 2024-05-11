@@ -16,7 +16,7 @@ const Details = () => {
   const queryClient = useQueryClient();
   const [startDate, setStartDate] = useState(new Date());
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading} = useQuery({
     queryFn: () => getData(),
     queryKey: ["details", id],
   });
