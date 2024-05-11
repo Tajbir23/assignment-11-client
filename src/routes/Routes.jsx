@@ -6,6 +6,7 @@ import ErrorPage from "../pages/ErrorPage";
 import CategoryBook from "../pages/CategoryBook";
 import AddBook from "../pages/AddBook";
 import PrivateRoute from "./PrivateRoute";
+import Details from "../pages/Details";
 
 
 
@@ -25,11 +26,15 @@ const router = createBrowserRouter([
             },
             {
                 path: '/category_books/:id',
-                element: <CategoryBook />
+                element: <PrivateRoute><CategoryBook /></PrivateRoute>
             },
             {
                 path: '/add_book',
                 element: <PrivateRoute><AddBook /></PrivateRoute>
+            },
+            {
+                path: '/details/:id',
+                element: <PrivateRoute><Details/></PrivateRoute>
             }
         ]
     }

@@ -26,9 +26,11 @@ const AddBookForm = () => {
             author: user?.displayName,
             authorEmail: user?.email,
             description: formData.description.value,
+            rating: formData.rating.value
         })
         if(result?.data?.acknowledged){
             toast.success('Book added successfully')
+            formData.reset()
         }
         } catch (error) {
             toast.error(error.message)
