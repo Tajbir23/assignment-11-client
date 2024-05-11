@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
     <Navbar />
-      <div className="md:px-36 sm:px-36 px-10 lg:px-36">
+      <div className="md:px-36 sm:px-36 px-10">
         <Outlet />
       </div>
       <Footer />
