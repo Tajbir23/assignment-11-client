@@ -5,6 +5,7 @@ import StarRatings from "react-star-ratings"
 import { AuthContext } from "../provider/AuthProvider"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
+import useAxiosSecure from "../hooks/useAxiosSecure"
 
 
 
@@ -13,6 +14,7 @@ const AllBooks = () => {
     const queryClient = useQueryClient()
     const {user} = useContext(AuthContext)
     const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
 
     const [checkLibrarian, setCheckLibrarian] = useState({})
 
@@ -47,6 +49,16 @@ const AllBooks = () => {
     if(checkLibrarian.message !== "access granted") return toast.error('Librarian only')
     navigate(`/update/${id}`)
   }
+
+  const handleDelete = async(id) => {
+    try {
+      await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/delete_book?id=${id}&&email=${user?.email}`)
+      queryClient.invalidateQueries(['all_books'])
+      toast.success('Book deleted successfully')
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
   return (
     <div className="my-10">
       
@@ -74,7 +86,7 @@ const AllBooks = () => {
             </div>
 
             <button onClick={() => handleUpdate(items?._id)} className="btn w-full">Update</button>
-            {checkLibrarian.message === "access granted" && <button className="btn w-full">Delete</button>}
+            {checkLibrarian.message === "access granted" && <button onClick={() => handleDelete(items?._id)} className="btn w-full">Delete</button>}
           </div>
         })}
       </div>
