@@ -13,7 +13,8 @@ const Details = () => {
         axios.get(`${import.meta.env.VITE_API_URL}/details/${id}`)
          .then(data => setData(data.data))
     },[id])
-    const {name, author, category, description, image, quantity, _id, rating} = data
+    const {name, author, category, description, image, quantity, _id} = data
+    const rating = parseInt(data?.rating)
   return (
     <div className="flex justify-center items-center md:min-h-[calc(100vh-125px)] my-10 p-10">
     <div className="flex flex-col md:flex-row w-full gap-10 rounded-lg shadow-lg overflow-hidden p-10">
