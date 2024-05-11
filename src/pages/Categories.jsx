@@ -8,8 +8,11 @@ const Categories = () => {
 
     const {categoryData} = useContext(AuthContext)
   return (
-    <div className="md:mt-20 mt-10 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-between gap-10 grid-rows-1">
+    <div className="md:my-20 mt-10">
+    <h1 className="md:text-4xl text-xl font-bold text-center mb-10">Categories</h1>
+      <div className=" grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-between gap-10 grid-rows-1">
         {categoryData?.map((item) => <Category key={item?._id} item={item} />)}
+    </div>
     </div>
   )
 }

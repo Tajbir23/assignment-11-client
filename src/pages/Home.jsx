@@ -1,4 +1,5 @@
 import Categories from "./Categories"
+import PopularBook from "./PopularBook"
 import Slider from "./Slider"
 
 
@@ -7,6 +8,7 @@ const Home = () => {
     <div>
       <Slider />
       <Categories />
+      <PopularBook />
     </div>
   )
 }
