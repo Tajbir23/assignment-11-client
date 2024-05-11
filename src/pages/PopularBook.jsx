@@ -14,7 +14,7 @@ const PopularBook = () => {
   return (
     <div className="mb-20">
         <h1 className="md:text-4xl text-xl font-bold text-center mb-10">Popular Book</h1>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {book.map((items) => {
           const rating = parseFloat(items?.rating)
           console.log(rating)

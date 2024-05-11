@@ -10,7 +10,7 @@ const Categories = () => {
   return (
     <div className="md:my-20 my-10">
     <h1 className="md:text-4xl text-xl font-bold text-center mb-10">Categories</h1>
-      <div className=" grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-between xl:gap-32 lg:gap-10 md:gap-14 grid-rows-1">
+      <div className=" grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {categoryData?.map((item) => <Category key={item?._id} item={item} />)}
     </div>
     </div>

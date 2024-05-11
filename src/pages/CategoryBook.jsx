@@ -10,30 +10,21 @@ const CategoryBook = () => {
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/category/${id}`)
-      .then((data) => setItem(data.data));
+      .then((data) => setItem(data.data))
+      .catch((err) => console.log(err));
   }, [id]);
   
-  // useEffect(() => {
-  //   if (item) {
-  //     const updatedItems = item.map((data) => ({
-  //       ...data,
-  //       rating: parseInt(data.rating),
-  //     }));
-  //     setItem(updatedItems);
-  //   }
-  // }, []);
-  // console.log(item);
   return (
     <div className="my-10">
       <h1 className="text-3xl font-bold text-center mb-10">{id}</h1>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {item.map((items) => {
           const rating = parseFloat(items?.rating)
           console.log(rating)
           return <div key={items?._id} className="flex flex-col gap-5">
             <img
               src={items?.image}
-              className="h-36 object-cover"
+              className="h-96 object-cover"
               alt="image not found"
             />
             <h1>Name : {items?.name}</h1>
