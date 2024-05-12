@@ -27,7 +27,6 @@ const Update = () => {
         getData()
     },[id])
 
-    console.log(item)
 
     const handleSubmit = async(e) => {
         e.preventDefault()
