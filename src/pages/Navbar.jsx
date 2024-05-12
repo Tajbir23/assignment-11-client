@@ -52,7 +52,7 @@ const Navbar = () => {
           <NavLink to='/add_book'>Add book</NavLink>
         </li>
         <li><NavLink to='/all_books'>All books</NavLink></li>
-        <li><NavLink to='/borrowed'>Borrowed books</NavLink></li>
+        <li><NavLink to='/borrowed_books'>Borrowed books</NavLink></li>
   </>
   return (
     <div className="navbar bg-base-100">

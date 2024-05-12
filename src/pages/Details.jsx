@@ -18,7 +18,7 @@ const Details = () => {
 
   const { data, isLoading} = useQuery({
     queryFn: () => getData(),
-    queryKey: ["details", id],
+    queryKey: ["details", id, user],
   });
   //   console.log(user)
 
@@ -39,6 +39,7 @@ const Details = () => {
       await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
         name: data?.name,
         author: data?.author,
+        authorEmail: data?.authorEmail,
         category: data?.category,
         description: data?.description,
         image: data?.image,
@@ -55,6 +56,10 @@ const Details = () => {
     },
   });
 
+  if(user?.email === undefined){
+    window.location.reload()
+  }
+
   if (isLoading)
     return (
       <div className="md:h-96 h-40 flex items-center justify-center">
@@ -69,6 +74,8 @@ const Details = () => {
     e.preventDefault();
     try {
       if (quantity === 0) return toast.error("Book is not available");
+
+      if(user?.email === data?.authorEmail) return toast.error("author cannot borrow book")
 
       await mutateAsync();
       setShowModal(false);

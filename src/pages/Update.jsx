@@ -39,6 +39,10 @@ const Update = () => {
             toast.error(error.message)
         }
     }
+
+    if(user?.email === undefined){
+      window.location.reload()
+    }
   return (
     <div className="max-w-md my-10 mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Update Book</h1>

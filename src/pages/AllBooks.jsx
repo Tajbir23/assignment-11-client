@@ -17,11 +17,13 @@ const AllBooks = () => {
   const [showBooks, setShowBooks] = useState("all_books");
   const [view, setView] = useState("grid");
 
+  
+
   const [checkLibrarian, setCheckLibrarian] = useState({});
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading} = useQuery({
     queryFn: () => getData(),
-    queryKey: ["all_books", showBooks],
+    queryKey: ["all_books", showBooks, user],
   });
 
   const getData = async () => {
@@ -31,7 +33,11 @@ const AllBooks = () => {
     return result.data;
   };
 
+  console.log(user)
+  console.log(user?.email)
+
   useEffect(() => {
+    
     try {
       axios
         .post(
@@ -45,6 +51,10 @@ const AllBooks = () => {
       console.log(error);
     }
   }, [user, queryClient]);
+
+  if(user?.email === undefined){
+    window.location.reload()
+  }
 
   if (isLoading)
     return (
@@ -72,6 +82,11 @@ const AllBooks = () => {
       toast.error(error.message);
     }
   };
+
+
+  // if(user?.email === undefined){
+  //   window.location.reload()
+  // }
   return (
     <div className="my-10">
       <div className="mb-10 flex gap-10 md:flex-row flex-col">
@@ -101,7 +116,7 @@ const AllBooks = () => {
       </div>
 
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
-        {data.map((items) => {
+        {data?.map((items) => {
           const rating = parseFloat(items?.rating);
           return (
             view === "grid" && (
@@ -118,15 +133,6 @@ const AllBooks = () => {
         })}
       </div>
 
-      {/* <div>
-        {data.map((items) => {
-          const rating = parseFloat(items?.rating);
-          return (
-            view === "table" && <TableView key={items?._id} items={items} rating={rating} checkLibrarian={checkLibrarian} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-          );
-        })}
-      </div> */}
-
       {view === "table" && <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -140,7 +146,7 @@ const AllBooks = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((items, index) => {
+            {data?.map((items, index) => {
               const rating = parseFloat(items?.rating); 
               return (
                 <TableView key={items?._id} index={index} items={items} rating={rating} checkLibrarian={checkLibrarian} handleUpdate={handleUpdate} handleDelete={handleDelete} />
