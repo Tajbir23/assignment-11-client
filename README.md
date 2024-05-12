@@ -1,8 +1,16 @@
-# React + Vite
+# BookNook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to BookNook, your virtual library where you can easily manage your book collection, borrow books, and keep track of your reading adventures!
 
-Currently, two official plugins are available:
+## Live Site
+[BookNook](https://assignment11.tajbirideas.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- **User-Friendly Book Management**: Easily add new books to your collection and keep track of your reading list with our intuitive interface.
+- **Borrowing System**: Users can borrow books from the library and enjoy their reading time. 
+- **Librarian Role**: Manage your library effectively with a dedicated librarian role. Librarians have special privileges to update and delete books as needed.
+- **Effortless Book Returns**: Returning books is hassle-free for users, ensuring a smooth borrowing experience.
+- **Dynamic Book Quantity Management**: Keep stock levels accurate with automatic updates to book quantities. Never worry about running out of popular titles again!
+
+Thank you for choosing BookNook for all your reading needs. Happy reading! 📚

@@ -75,7 +75,7 @@ const Details = () => {
     try {
       if (quantity === 0) return toast.error("Book is not available");
 
-      if(user?.email === data?.authorEmail) return toast.error("author cannot borrow book")
+      if(user?.email === data?.authorEmail) return toast.error("author cannot borrow their book")
 
       await mutateAsync();
       setShowModal(false);
