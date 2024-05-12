@@ -6,13 +6,16 @@ import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import GridView from "../components/GridView";
+import TableView from "../components/TableView";
 
 const AllBooks = () => {
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-  const [showBooks, setShowBooks] = useState('all_books')
+  const [showBooks, setShowBooks] = useState("all_books");
+  const [view, setView] = useState("grid");
 
   const [checkLibrarian, setCheckLibrarian] = useState({});
 
@@ -22,7 +25,9 @@ const AllBooks = () => {
   });
 
   const getData = async () => {
-    const result = await axios.get(`${import.meta.env.VITE_API_URL}/all_books?books=${showBooks}`);
+    const result = await axios.get(
+      `${import.meta.env.VITE_API_URL}/all_books?books=${showBooks}`
+    );
     return result.data;
   };
 
@@ -40,7 +45,6 @@ const AllBooks = () => {
       console.log(error);
     }
   }, [user, queryClient]);
-
 
   if (isLoading)
     return (
@@ -71,62 +75,80 @@ const AllBooks = () => {
   return (
     <div className="my-10">
       <div className="mb-10 flex gap-10 md:flex-row flex-col">
-        <select className="select select-bordered w-full max-w-xs">
-          <option disabled selected>
-            View
-          </option>
-          <option>Table</option>
-          <option>Grid</option>
+        <select
+          onChange={(e) => setView(e.target.value)}
+          className="select select-bordered w-full max-w-xs"
+        >
+          <option disabled>View</option>
+          <option value={"grid"}>Grid</option>
+          <option value={"table"}>Table</option>
         </select>
 
-        <select onChange={(e) => setShowBooks(e.target.value)} className="select select-bordered w-full max-w-xs">
-          <option selected={showBooks === 'all_books'} value={'all_books'}>All books</option>
-          <option selected={showBooks === 'available_books'} value={'available_books'}>Available books</option>
+        <select
+          onChange={(e) => setShowBooks(e.target.value)}
+          className="select select-bordered w-full max-w-xs"
+        >
+          <option selected={showBooks === "all_books"} value={"all_books"}>
+            All books
+          </option>
+          <option
+            selected={showBooks === "available_books"}
+            value={"available_books"}
+          >
+            Available books
+          </option>
         </select>
       </div>
-      
+
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {data.map((items) => {
           const rating = parseFloat(items?.rating);
           return (
-            <div key={items?._id} className="flex flex-col gap-5">
-              <img
-                src={items?.image}
-                className="h-96 object-cover"
-                alt="image not found"
+            view === "grid" && (
+              <GridView
+                key={items?._id}
+                items={items}
+                rating={rating}
+                checkLibrarian={checkLibrarian}
+                handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
               />
-              <h1>Name : {items?.name}</h1>
-              <h1>Author : {items?.author}</h1>
-              <h1>Category : {items?.category}</h1>
-              <div>
-                <StarRatings
-                  rating={rating || 1}
-                  starRatedColor="gold"
-                  starEmptyColor="gray"
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="20px"
-                />
-              </div>
-
-              <button
-                onClick={() => handleUpdate(items?._id)}
-                className="btn w-full"
-              >
-                Update
-              </button>
-              {checkLibrarian.message === "access granted" && (
-                <button
-                  onClick={() => handleDelete(items?._id)}
-                  className="btn w-full"
-                >
-                  Delete
-                </button>
-              )}
-            </div>
+            )
           );
         })}
       </div>
+
+      {/* <div>
+        {data.map((items) => {
+          const rating = parseFloat(items?.rating);
+          return (
+            view === "table" && <TableView key={items?._id} items={items} rating={rating} checkLibrarian={checkLibrarian} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+          );
+        })}
+      </div> */}
+
+      {view === "table" && <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th className="hidden lg:block">Rating</th>
+              <th>Update Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((items, index) => {
+              const rating = parseFloat(items?.rating); 
+              return (
+                <TableView key={items?._id} index={index} items={items} rating={rating} checkLibrarian={checkLibrarian} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+              )
+            })}
+          </tbody>
+        </table>
+      </div>}
     </div>
   );
 };
