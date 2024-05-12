@@ -52,9 +52,6 @@ const AllBooks = () => {
     }
   }, [user, queryClient]);
 
-  if(user?.email === undefined){
-    window.location.reload()
-  }
 
   if (isLoading)
     return (
@@ -72,7 +69,7 @@ const AllBooks = () => {
   const handleDelete = async (id) => {
     try {
       await axiosSecure.delete(
-        `${import.meta.env.VITE_API_URL}/delete_book?id=${id}&&email=${
+        `${import.meta.env.VITE_API_URL}/delete_book?id=${id}&email=${
           user?.email
         }`
       );
@@ -84,9 +81,9 @@ const AllBooks = () => {
   };
 
 
-  // if(user?.email === undefined){
-  //   window.location.reload()
-  // }
+  if(user?.email === undefined){
+    window.location.reload()
+  }
   return (
     <div className="my-10">
       <div className="mb-10 flex gap-10 md:flex-row flex-col">

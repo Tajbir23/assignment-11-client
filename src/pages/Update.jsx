@@ -33,7 +33,7 @@ const Update = () => {
         const formData = e.target
         
         try {
-            await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/update_book?email=${user?.email}&&id=${id}`, {image: formData.image.value, name: formData.name.value, author: formData.author.value, category: formData.category.value, rating: formData.rating.value})
+            await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/update_book?email=${user?.email}&id=${id}`, {image: formData.image.value, name: formData.name.value, author: formData.author.value, category: formData.category.value, rating: formData.rating.value})
             toast.success('Book updated successfully')
         } catch (error) {
             toast.error(error.message)
