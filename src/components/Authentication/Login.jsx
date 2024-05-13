@@ -27,7 +27,7 @@ const Login = ({setPage}) => {
       const user = await signIn(data.email, data.password);
       
     setUser(user);
-    await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {email: user?.user?.email}, {withCredentials: true})
+    await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {email: user?.user?.email }, {withCredentials: true})
     toast.success('logged in successfully');
     navigate(redirect, {replace: true})
     } catch (error) {

@@ -121,7 +121,7 @@ const Details = () => {
             alt="Book Cover"
           />
           <button
-            disabled={quantity === 0}
+            disabled={quantity <= 0}
             onClick={() => setShowModal(true)}
             className="btn btn-primary w-56"
           >
