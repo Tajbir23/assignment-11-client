@@ -20,9 +20,8 @@ const Details = () => {
     queryFn: () => getData(),
     queryKey: ["details", id, user],
   });
-  //   console.log(user)
 
-  console.log(data);
+  
   const getData = async () => {
     try {
       const result = await axios.get(
@@ -34,27 +33,80 @@ const Details = () => {
     }
   };
 
+  // const { mutateAsync, isError } = useMutation({
+  //   mutationFn: async () => {
+  //     try {
+  //       const result = await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
+  //         name: data?.name,
+  //         author: data?.author,
+  //         authorEmail: data?.authorEmail,
+  //         category: data?.category,
+  //         description: data?.description,
+  //         image: data?.image,
+  //         rating: data?.rating,
+  //         quantity: data?.quantity,
+  //         borrower: user?.email,
+  //         id: data?._id,
+  //         returnDate: startDate.toDateString()
+  //       })
+
+  //       if(result.status === 302){
+  //         toast.error("user already borrows the book");
+  //       }
+  //       return ;
+  //     } catch (error) {
+  //       toast.error(error.message)
+  //     }
+  //   },
+  //   onSuccess: () => {
+      
+  //     queryClient.invalidateQueries(["details", id]);
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.message);
+  //   },
+  // });
+
+
   const { mutateAsync } = useMutation({
     mutationFn: async () => {
-      await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
-        name: data?.name,
-        author: data?.author,
-        authorEmail: data?.authorEmail,
-        category: data?.category,
-        description: data?.description,
-        image: data?.image,
-        rating: data?.rating,
-        quantity: data?.quantity,
-        borrower: user?.email,
-        id: data?._id,
-        returnDate: startDate.toDateString()
-      });
+      const startDate = new Date(); // Assuming startDate is defined somewhere
+      try {
+        const result = await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
+          name: data?.name,
+          author: data?.author,
+          authorEmail: data?.authorEmail,
+          category: data?.category,
+          description: data?.description,
+          image: data?.image,
+          rating: data?.rating,
+          quantity: data?.quantity,
+          borrower: user?.email,
+          id: data?._id,
+          returnDate: startDate.toDateString()
+        });
+
+        return result.data; // Assuming the server returns some data upon success
+      } catch (error) {
+        throw error.response.data; // Throw server error message for proper handling
+      }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data && data.message) {
+        toast.error(data.message);
+      } else {
+        queryClient.invalidateQueries(["details", id]);
+      }
       toast.success("Book borrowed successfully");
-      queryClient.invalidateQueries(["details", id]);
+    },
+    onError: (error) => {
+      if (error && error.message) {
+        toast.error(error.message);
+      }
     },
   });
+
+  
 
   if(user?.email === undefined){
     window.location.reload()
@@ -75,16 +127,17 @@ const Details = () => {
     try {
       if (quantity === 0) return toast.error("Book is not available");
 
-      if(user?.email === data?.authorEmail) return toast.error("author cannot borrow their book")
+      if (user?.email === data?.authorEmail) return toast.error("Author cannot borrow their own book");
 
       await mutateAsync();
       setShowModal(false);
     } catch (error) {
-      toast.error(error.message);
+      // toast.error("An error occurred while borrowing the book.");
+      console.log(error);
+      setShowModal(false);
     }
   };
 
-  console.log(startDate.toDateString())
 
   return (
     <div className="flex justify-center items-center md:min-h-[calc(100vh-125px)] py-10 ">
@@ -132,10 +185,10 @@ const Details = () => {
 
       {/* modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
-            <div className="p-4 bg-gray-100 rounded-md mb-5">
-              <div className="mb-4">
+        <div className="fixed inset-0 z-50 overflow-auto text-white bg-black bg-opacity-50 flex items-center justify-center">
+          <div className=" w-full bg-slate-900 max-w-md p-6 rounded-lg shadow-lg">
+            <div className="p-4  rounded-md mb-5">
+              <div className="mb-4 text-black dark:text-gray-600">
                 <label className="block mb-2 text-sm font-semibold">
                   Return date
                 </label>
@@ -150,7 +203,7 @@ const Details = () => {
                 <input
                   type="text"
                   disabled
-                  className="px-3 py-2 border rounded-md w-full bg-gray-200"
+                  className="px-3 py-2 border rounded-md w-full "
                   defaultValue={user?.displayName}
                 />
               </div>
@@ -161,7 +214,7 @@ const Details = () => {
                 <input
                   type="email"
                   disabled
-                  className="px-3 py-2 border rounded-md w-full bg-gray-200"
+                  className="px-3 py-2 border rounded-md w-full "
                   defaultValue={user?.email}
                 />
               </div>

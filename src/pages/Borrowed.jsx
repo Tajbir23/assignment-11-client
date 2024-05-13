@@ -21,7 +21,7 @@ const Borrowed = () => {
             const {data} = await axiosSecure.get(`/borrowed_books`)
         return data
         } catch (error) {
-            console.log(error)
+            toast.error(error.message)
         }
     }
 
@@ -33,7 +33,6 @@ const Borrowed = () => {
         );
 
     const handleReturn = async(borrowId) => {
-        console.log(borrowId)
         try {
             await axiosSecure.put(`/return_book?borrowId=${borrowId}&userEmail=${user?.email}`)
             queryClient.invalidateQueries("borrowed")
