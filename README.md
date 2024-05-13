@@ -5,6 +5,10 @@ Welcome to BookNook, your virtual library where you can easily manage your book 
 ## Live Site
 [BookNook](https://assignment11.tajbirideas.com)
 
+## Librarian
+- **Email** : librarian@gmail.com
+- **Password** : aaaaA@
+
 ## Features
 
 - **User-Friendly Book Management**: Easily add new books to your collection and keep track of your reading list with our intuitive interface.

@@ -42,7 +42,7 @@ const AddBookForm = () => {
       window.location.reload()
     }
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Add Book</h1>
       <form
         onSubmit={handleSubmit}
@@ -134,7 +134,7 @@ const AddBookForm = () => {
         <div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-700"
+            className="w-full bg-blue-500  py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-700"
           >
             Add Book
           </button>
