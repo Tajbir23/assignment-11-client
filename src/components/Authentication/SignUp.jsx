@@ -4,6 +4,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 
 const SignUp = ({setPage}) => {
@@ -77,6 +78,9 @@ const SignUp = ({setPage}) => {
 
   return (
     <div>
+    <Helmet>
+      <title>Sign Up</title>
+    </Helmet>
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="card shrink-0 sm:w-[400px] w-full max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSignUp} className="card-body">

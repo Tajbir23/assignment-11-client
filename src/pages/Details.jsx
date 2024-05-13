@@ -7,6 +7,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { AuthContext } from "../provider/AuthProvider";
 import DatePicker from "react-datepicker";
+import { Helmet } from "react-helmet";
 
 const Details = () => {
   const { id } = useParams();
@@ -141,6 +142,9 @@ const Details = () => {
 
   return (
     <div className="flex justify-center items-center md:min-h-[calc(100vh-125px)] py-10 ">
+    <Helmet>
+      <title>{name}</title>
+    </Helmet>
       <div className="flex flex-col md:flex-row w-full gap-10 rounded-lg shadow-lg overflow-hidden p-5">
         <div className="flex flex-col gap-5 justify-center items-center md:w-1/3">
           <img

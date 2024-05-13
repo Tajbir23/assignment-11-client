@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import GridView from "../components/GridView";
 import TableView from "../components/TableView";
+import { Helmet } from "react-helmet";
 
 const AllBooks = () => {
   const queryClient = useQueryClient();
@@ -86,6 +87,9 @@ const AllBooks = () => {
   }
   return (
     <div className="my-10">
+    <Helmet>
+      <title>All Books</title>
+    </Helmet>
       <div className="mb-10 flex gap-10 md:flex-row flex-col">
         <select
           onChange={(e) => setView(e.target.value)}

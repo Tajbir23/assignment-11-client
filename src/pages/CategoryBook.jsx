@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
@@ -16,6 +17,9 @@ const CategoryBook = () => {
   
   return (
     <div className="my-10">
+    <Helmet>
+      <title>{id}</title>
+    </Helmet>
       <h1 className="text-3xl font-bold text-center mb-10">{id}</h1>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {item.map((items) => {

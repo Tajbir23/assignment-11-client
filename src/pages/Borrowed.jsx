@@ -3,6 +3,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
+import { Helmet } from "react-helmet";
 
 
 
@@ -52,6 +53,9 @@ const Borrowed = () => {
   return (
  
     <div className="mb-20">
+    <Helmet>
+      <title>Borrowed Books</title>
+    </Helmet>
         <h1 className="md:text-4xl text-xl font-bold text-center mb-10">Popular Book</h1>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {book.map((items) => {

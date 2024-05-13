@@ -5,6 +5,8 @@ import { AuthContext } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import PropTypes from 'prop-types';
+import { Helmet } from "react-helmet";
 
 
 const Login = ({setPage}) => {
@@ -46,6 +48,9 @@ const Login = ({setPage}) => {
   }
   return (
     <div>
+     <Helmet>
+      <title>Login</title>
+     </Helmet>
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card shrink-0 sm:w-[400px] w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleSubmit} className="card-body">
@@ -120,5 +125,9 @@ const Login = ({setPage}) => {
     </div>
   )
 }
+
+Login.propTypes = {
+  setPage: PropTypes.func.isRequired,
+};
 
 export default Login
