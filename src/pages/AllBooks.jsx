@@ -34,8 +34,7 @@ const AllBooks = () => {
     return result.data;
   };
 
-  console.log(user)
-  console.log(user?.email)
+  
 
   useEffect(() => {
     

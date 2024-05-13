@@ -74,7 +74,7 @@ const Details = () => {
     },
   });
 
-  console.log(startDate.toDateString())
+  
   
 
   if(user?.email === undefined){

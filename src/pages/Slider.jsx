@@ -17,7 +17,7 @@ const Slider = () => {
 
     const categories = async() => {
         const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/categories`)
-        console.log(data)
+        
         return data
     }
 
@@ -48,7 +48,7 @@ const Slider = () => {
         >
           {data?.map((items) => (
             <SwiperSlide key={items?._id}>
-              {console.log(items)}
+              
               <div className="h-full w-full">
                 <img
                   className="h-full w-full object-cover object-center"

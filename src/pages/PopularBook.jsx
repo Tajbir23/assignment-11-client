@@ -17,7 +17,7 @@ const PopularBook = () => {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:gap-32 lg:gap-10 md:gap-14 gap-10">
         {book.map((items) => {
           const rating = parseFloat(items?.rating)
-          console.log(rating)
+          
           return <div key={items?._id} className="flex flex-col gap-5">
             <img
               src={items?.image}

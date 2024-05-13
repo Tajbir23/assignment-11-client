@@ -70,7 +70,7 @@ const SignUp = ({setPage}) => {
         navigate(redirect, {replace: true})
         
         } catch (error) {
-            console.log(error)
+            
             toast.error(error.message)
         }
     }
