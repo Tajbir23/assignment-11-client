@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 
 
 const Login = ({setPage}) => {
-  const {signIn, signInWithGoogle, setUser} = useContext(AuthContext)
+  const {signIn, signInWithGoogle, setUser, setLoading} = useContext(AuthContext)
   const location = useLocation();
   const redirect = location.state || '/';
   const navigate = useNavigate();
@@ -25,12 +25,16 @@ const Login = ({setPage}) => {
     e.preventDefault();
     try {
       const user = await signIn(data.email, data.password);
+      
     setUser(user);
     await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {email: user?.user?.email}, {withCredentials: true})
     toast.success('logged in successfully');
     navigate(redirect, {replace: true})
     } catch (error) {
       toast.error(error.message)
+      if(error){
+        setLoading(false)
+      }
     }
   };
 

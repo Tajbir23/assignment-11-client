@@ -44,7 +44,7 @@ const Update = () => {
       window.location.reload()
     }
   return (
-    <div className="max-w-md my-10 mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md my-10 mx-auto p-6  rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Update Book</h1>
       <form
         onSubmit={handleSubmit}
@@ -96,7 +96,7 @@ const Update = () => {
             required
           >
             <option defaultValue={item?.category}>Select Category</option>
-            {category?.map((category) => <option key={category?._id} value={category?.name}>{category?.title}</option>)}
+            {category?.map((category) => <option key={category?._id} selected={category?.name === item?.category} value={category?.name}>{category?.title}</option>)}
           </select>
         </div>
 

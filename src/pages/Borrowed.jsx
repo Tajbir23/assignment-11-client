@@ -70,6 +70,10 @@ const Borrowed = () => {
           </div>
         })}
       </div>
+
+      {book.length === 0 && <div className="h-[calc(100vh-230px)] flex items-center justify-center">
+        <h1 className="text-5xl font-bold">No borrowed books here</h1>
+      </div>}
     </div>
 
   )

@@ -34,44 +34,11 @@ const Details = () => {
     }
   };
 
-  // const { mutateAsync, isError } = useMutation({
-  //   mutationFn: async () => {
-  //     try {
-  //       const result = await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
-  //         name: data?.name,
-  //         author: data?.author,
-  //         authorEmail: data?.authorEmail,
-  //         category: data?.category,
-  //         description: data?.description,
-  //         image: data?.image,
-  //         rating: data?.rating,
-  //         quantity: data?.quantity,
-  //         borrower: user?.email,
-  //         id: data?._id,
-  //         returnDate: startDate.toDateString()
-  //       })
-
-  //       if(result.status === 302){
-  //         toast.error("user already borrows the book");
-  //       }
-  //       return ;
-  //     } catch (error) {
-  //       toast.error(error.message)
-  //     }
-  //   },
-  //   onSuccess: () => {
-      
-  //     queryClient.invalidateQueries(["details", id]);
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message);
-  //   },
-  // });
 
 
   const { mutateAsync } = useMutation({
     mutationFn: async () => {
-      const startDate = new Date(); // Assuming startDate is defined somewhere
+       
       try {
         const result = await axiosSecure.put(`${import.meta.env.VITE_API_URL}/borrow_book/`, {
           name: data?.name,
@@ -107,6 +74,7 @@ const Details = () => {
     },
   });
 
+  console.log(startDate.toDateString())
   
 
   if(user?.email === undefined){
@@ -153,6 +121,7 @@ const Details = () => {
             alt="Book Cover"
           />
           <button
+            disabled={quantity === 0}
             onClick={() => setShowModal(true)}
             className="btn btn-primary w-56"
           >
