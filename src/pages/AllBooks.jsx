@@ -170,7 +170,7 @@ const AllBooks = () => {
         >
           Previous
         </button>
-        <span className="mx-2">{page}</span>
+        <span className=" btn">{page}</span>
         <button
           className="btn btn-primary ml-2"
           onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
