@@ -8,6 +8,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import GridView from "../components/GridView";
 import TableView from "../components/TableView";
 import { Helmet } from "react-helmet";
+import Pagination from "../components/Pagination";
 
 const AllBooks = () => {
   const queryClient = useQueryClient();
@@ -162,23 +163,7 @@ const AllBooks = () => {
         </div>
       )}
 
-      <div className="flex justify-center mt-6">
-        <button
-          className="btn btn-primary mr-2"
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <span className=" btn">{page}</span>
-        <button
-          className="btn btn-primary ml-2"
-          onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      <Pagination setPage={setPage} page={page} totalPages={totalPages} />
     </div>
   );
 };
