@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import StarRatings from "react-star-ratings";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -17,27 +16,25 @@ const AllBooks = () => {
   const axiosSecure = useAxiosSecure();
   const [showBooks, setShowBooks] = useState("all_books");
   const [view, setView] = useState("grid");
-
-  
-
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [totalBooks, setTotalBooks] = useState(0);
   const [checkLibrarian, setCheckLibrarian] = useState({});
-
-  const { data, isLoading} = useQuery({
-    queryFn: () => getData(),
-    queryKey: ["all_books", showBooks, user],
-  });
 
   const getData = async () => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/all_books?books=${showBooks}`
+      `${import.meta.env.VITE_API_URL}/all_books?books=${showBooks}&page=${page}&limit=${limit}`
     );
-    return result.data;
+    setTotalBooks(result.data.total);
+    return result.data.result;
   };
 
-  
+  const { data, isLoading } = useQuery({
+    queryFn: () => getData(),
+    queryKey: ["all_books", showBooks, user, page],
+  });
 
   useEffect(() => {
-    
     try {
       axios
         .post(
@@ -51,7 +48,6 @@ const AllBooks = () => {
       console.log(error);
     }
   }, [user, queryClient]);
-
 
   if (isLoading)
     return (
@@ -69,9 +65,7 @@ const AllBooks = () => {
   const handleDelete = async (id) => {
     try {
       await axiosSecure.delete(
-        `${import.meta.env.VITE_API_URL}/delete_book?id=${id}&email=${
-          user?.email
-        }`
+        `${import.meta.env.VITE_API_URL}/delete_book?id=${id}&email=${user?.email}`
       );
       queryClient.invalidateQueries(["all_books"]);
       toast.success("Book deleted successfully");
@@ -80,15 +74,17 @@ const AllBooks = () => {
     }
   };
 
-
-  if(user?.email === undefined){
-    window.location.reload()
+  if (user?.email === undefined) {
+    window.location.reload();
   }
+
+  const totalPages = Math.ceil(totalBooks / limit);
+
   return (
     <div className="my-10">
-    <Helmet>
-      <title>All Books</title>
-    </Helmet>
+      <Helmet>
+        <title>All Books</title>
+      </Helmet>
       <div className="mb-10 flex gap-10 md:flex-row flex-col">
         <select
           onChange={(e) => setView(e.target.value)}
@@ -133,28 +129,56 @@ const AllBooks = () => {
         })}
       </div>
 
-      {view === "table" && <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Author</th>
-              <th>Category</th>
-              <th className="hidden lg:block">Rating</th>
-              <th>Update Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((items, index) => {
-              const rating = parseFloat(items?.rating); 
-              return (
-                <TableView key={items?._id} index={index} items={items} rating={rating} checkLibrarian={checkLibrarian} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-              )
-            })}
-          </tbody>
-        </table>
-      </div>}
+      {view === "table" && (
+        <div className="overflow-x-auto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th className="hidden lg:block">Rating</th>
+                <th>Update Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((items, index) => {
+                const rating = parseFloat(items?.rating);
+                return (
+                  <TableView
+                    key={items?._id}
+                    index={index}
+                    items={items}
+                    rating={rating}
+                    checkLibrarian={checkLibrarian}
+                    handleUpdate={handleUpdate}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className="flex justify-center mt-6">
+        <button
+          className="btn btn-primary mr-2"
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+        >
+          Previous
+        </button>
+        <span className="mx-2">{page}</span>
+        <button
+          className="btn btn-primary ml-2"
+          onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
+          disabled={page === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

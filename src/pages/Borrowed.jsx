@@ -12,14 +12,19 @@ const Borrowed = () => {
     const axiosSecure = useAxiosSecure();
     const {user} = useContext(AuthContext)
 
-    const {data: book= [], isLoading} = useQuery({
+    if(user?.email === undefined){
+      window.location.reload()
+    }
+
+    const {data: book= [], isLoading, error} = useQuery({
         queryFn: () => getData(),
-        queryKey: ["borrowed"]
+        queryKey: ["borrowed", user?.email]
     })
 
+    console.log(error)
     const getData = async() => {
         try {
-            const {data} = await axiosSecure.get(`/borrowed_books`)
+            const {data} = await axiosSecure.get(`/borrowed_books/${user?.email}`)
         return data
         } catch (error) {
             toast.error(error.message)
@@ -43,9 +48,7 @@ const Borrowed = () => {
         }
     }
 
-    if(user?.email === undefined){
-      window.location.reload()
-    }
+    
   return (
  
     <div className="mb-20">
