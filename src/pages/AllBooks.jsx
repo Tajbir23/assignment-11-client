@@ -18,7 +18,7 @@ const AllBooks = () => {
   const [showBooks, setShowBooks] = useState("all_books");
   const [view, setView] = useState("grid");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit] = useState(9);
   const [totalBooks, setTotalBooks] = useState(0);
   const [checkLibrarian, setCheckLibrarian] = useState({});
 
