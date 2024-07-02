@@ -18,3 +18,18 @@ Welcome to BookNook, your virtual library where you can easily manage your book 
 - **Dynamic Book Quantity Management**: Keep stock levels accurate with automatic updates to book quantities. Never worry about running out of popular titles again!
 
 Thank you for choosing BookNook for all your reading needs. Happy reading! 📚
+
+## Installation and Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to the project directory
+cd HealthDx
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
