@@ -26,7 +26,7 @@ Thank you for choosing BookNook for all your reading needs. Happy reading! 📚
 git clone <repository-url>
 
 # Navigate to the project directory
-cd HealthDx
+cd client
 
 # Install dependencies
 npm install
